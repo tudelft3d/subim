@@ -1,0 +1,6 @@
+QMAKE_PRL_BUILD_DIR = /home/abdou/Desktop/Dev/BIM_Subsoil/libQGLViewer-2.6.4/QGLViewer/build
+QMAKE_PRO_INPUT = QGLViewer.pro
+QMAKE_PRL_TARGET = libQGLViewer-qt5.a
+QMAKE_PRL_CONFIG = lex yacc exceptions depend_includepath testcase_targets import_plugins import_qpa_plugin qt warn_on release link_prl incremental gdb_dwarf_index qpa no_mocdepend release qt_no_framework linux unix posix gcc opengl thread create_prl rtti no_keywords staticlib have_target static staticlib uic needs_qpa_plugin opengl moc resources
+QMAKE_PRL_VERSION = 2.6.4
+QMAKE_PRL_LIBS = -L/usr/X11R6/lib64 -lGL -lGLU -lQt5OpenGL -L/usr/lib/x86_64-linux-gnu -lQt5Widgets -lQt5Xml -lQt5Gui -lQt5Core -lpthread  
