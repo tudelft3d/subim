@@ -4,7 +4,7 @@ using namespace std;
 
 extern float x_in, y_in, z_in;
 extern int sz_x, sz_y, sz_z;
-float scale = 1000, scale2 = 10;
+float scale = 1000, scale2 = 100;
 
 void Viewer::draw_cube(float x0, float y0, float z0)
 {
@@ -25,18 +25,18 @@ void Viewer::draw_cube(float x0, float y0, float z0)
     // right
     glVertex3f( (x0+100)/scale,     y0/scale,           (z0+0.5*scale2)/scale   );
     glVertex3f( (x0+100)/scale,     y0/scale,           z0/scale         );
-    glVertex3f( (x0+100)/scale,     y0+100/scale,       z0/scale         );
-    glVertex3f( (x0+100)/scale,     y0+100/scale,       (z0+0.5*scale2)/scale   );
+    glVertex3f( (x0+100)/scale,     (y0+100)/scale,       z0/scale         );
+    glVertex3f( (x0+100)/scale,     (y0+100)/scale,       (z0+0.5*scale2)/scale   );
     // left
     glVertex3f( x0/scale,           y0/scale,           (z0+0.5*scale2)/scale   );
     glVertex3f( x0/scale,           y0/scale,           z0/scale         );
-    glVertex3f( x0/scale,           y0+100/scale,       z0/scale         );
-    glVertex3f( x0/scale,           y0+100/scale,       (z0+0.5*scale2)/scale   );
+    glVertex3f( x0/scale,           (y0+100)/scale,       z0/scale         );
+    glVertex3f( x0/scale,           (y0+100)/scale,       (z0+0.5*scale2)/scale   );
     // top
-    glVertex3f( x0/scale,           y0+100/scale,       (z0+0.5*scale2)/scale   );
-    glVertex3f( (x0+100)/scale,     y0+100/scale,       (z0+0.5*scale2)/scale   );
-    glVertex3f( (x0+100)/scale,     y0+100/scale,       z0/scale         );
-    glVertex3f( x0/scale,           y0+100/scale,       z0/scale         );
+    glVertex3f( x0/scale,           (y0+100)/scale,       (z0+0.5*scale2)/scale   );
+    glVertex3f( (x0+100)/scale,     (y0+100)/scale,       (z0+0.5*scale2)/scale   );
+    glVertex3f( (x0+100)/scale,     (y0+100)/scale,       z0/scale         );
+    glVertex3f( x0/scale,           (y0+100)/scale,       z0/scale         );
     // bottom
     glVertex3f( x0/scale,           y0/scale,           (z0+0.5*scale2)/scale   );
     glVertex3f( (x0+100)/scale,     y0/scale,           (z0+0.5*scale2)/scale   );
@@ -58,6 +58,7 @@ void Viewer::draw()
           y = y_,
           z = z_;
 
+//    std::cout << "\nDrawing my voxels: " << std::endl;
     for (int i=0; i<sx; ++i)
     {
         for (int j=0; j<sy; ++j)
@@ -66,10 +67,13 @@ void Viewer::draw()
             {
                 draw_cube( x, y, z );
                 z += 0.5*scale2;
+//                std::cout << "(" << x << ", " << y << ", " << z  << ")";
             }
+//            std::cout << std::endl;
             y+=100;
             z = z_;
         }
+//        std::cout << std::endl;
         x+=100;
         y = y_;
     }
