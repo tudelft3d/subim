@@ -4,7 +4,7 @@ using namespace std;
 
 extern float x_in, y_in, z_in;
 extern int sz_x, sz_y, sz_z;
-float scale = 1000, scale2 = 100;
+float scale = 1000, scale2 = 10;
 
 void Viewer::draw_cube(float x0, float y0, float z0)
 {
@@ -25,18 +25,18 @@ void Viewer::draw_cube(float x0, float y0, float z0)
     // right
     glVertex3f( (x0+100)/scale,     y0/scale,           (z0+0.5*scale2)/scale   );
     glVertex3f( (x0+100)/scale,     y0/scale,           z0/scale         );
-    glVertex3f( (x0+100)/scale,     (y0+100)/scale,       z0/scale         );
-    glVertex3f( (x0+100)/scale,     (y0+100)/scale,       (z0+0.5*scale2)/scale   );
+    glVertex3f( (x0+100)/scale,     (y0+100)/scale,     z0/scale         );
+    glVertex3f( (x0+100)/scale,     (y0+100)/scale,     (z0+0.5*scale2)/scale   );
     // left
     glVertex3f( x0/scale,           y0/scale,           (z0+0.5*scale2)/scale   );
     glVertex3f( x0/scale,           y0/scale,           z0/scale         );
-    glVertex3f( x0/scale,           (y0+100)/scale,       z0/scale         );
-    glVertex3f( x0/scale,           (y0+100)/scale,       (z0+0.5*scale2)/scale   );
+    glVertex3f( x0/scale,           (y0+100)/scale,     z0/scale         );
+    glVertex3f( x0/scale,           (y0+100)/scale,     (z0+0.5*scale2)/scale   );
     // top
-    glVertex3f( x0/scale,           (y0+100)/scale,       (z0+0.5*scale2)/scale   );
-    glVertex3f( (x0+100)/scale,     (y0+100)/scale,       (z0+0.5*scale2)/scale   );
-    glVertex3f( (x0+100)/scale,     (y0+100)/scale,       z0/scale         );
-    glVertex3f( x0/scale,           (y0+100)/scale,       z0/scale         );
+    glVertex3f( x0/scale,           (y0+100)/scale,     (z0+0.5*scale2)/scale   );
+    glVertex3f( (x0+100)/scale,     (y0+100)/scale,     (z0+0.5*scale2)/scale   );
+    glVertex3f( (x0+100)/scale,     (y0+100)/scale,     z0/scale         );
+    glVertex3f( x0/scale,           (y0+100)/scale,     z0/scale         );
     // bottom
     glVertex3f( x0/scale,           y0/scale,           (z0+0.5*scale2)/scale   );
     glVertex3f( (x0+100)/scale,     y0/scale,           (z0+0.5*scale2)/scale   );

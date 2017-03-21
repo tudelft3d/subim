@@ -26,8 +26,8 @@ public:
 
     // Get corresponding voxels from GeoTOP using RD-Coordinates
     int Get_GeoTOP_voxels(int xmin, int xmax,
-                           int ymin, int ymax,
-                           int zmin, int zmax);
+                          int ymin, int ymax,
+                          int zmin, int zmax);
 
 private:
     Ui::SuBIM_main *ui;
