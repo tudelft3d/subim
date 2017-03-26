@@ -41,23 +41,28 @@ int main(int argc, char *argv[])
     sz_y = my_SuBIM.sy;
     sz_z = my_SuBIM.sz;
 
-    // Instantiate the viewer.
-    Viewer viewer;
-    viewer.setWindowTitle("VoxelViewer");
 
-    // Make the viewer window visible on screen.
-    viewer.show();
+    // ------------------------------------- OpenGL voxel viewer //
 
-    // Generates IFC file
-    IfcDealer::Create_IfcSpace_entities();
+//    // Instantiate the viewer.
+//    Viewer viewer;
+//    viewer.setWindowTitle("VoxelViewer");
+//    // Make the viewer window visible on screen.
+//    viewer.show();
+//    // Run main loop.
+//    return application.exec();
 
-    // Run main loop.
-    return application.exec();
+    // ------------------------------------- SuBIM UI //
 
 //    QApplication a(argc, argv);
 //    SuBIM_main w;
 //    w.show();
 
 //    return a.exec();
-//    return 0;
+
+    // -------------------------------------- Generates IFC files //
+//    IfcDealer::Create_IfcSpace_entities();
+    test_faces();
+
+    return 0;
 }

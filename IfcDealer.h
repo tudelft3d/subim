@@ -25,6 +25,9 @@
 #include "ifcparse/IfcHierarchyHelper.h"
 #include "ifcgeom/IfcGeom.h"
 
+void create_testcase(IfcHierarchyHelper& file, IfcSchema::IfcFace* face, const std::string& name);
+void test_faces();
+
 namespace IfcDealer
 {
     // Some convenience typedefs and definitions.
