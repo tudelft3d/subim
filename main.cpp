@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
 //    return a.exec();
 
     // -------------------------------------- Generates IFC files //
-//    IfcDealer::Create_IfcSpace_entities();
-    test_faces();
+    IfcDealer::Create_IfcSpace_entities();
+//    test_faces();
 
     return 0;
 }

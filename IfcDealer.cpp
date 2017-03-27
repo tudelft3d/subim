@@ -8,15 +8,32 @@ void IfcDealer::Create_IfcSpace_entities()
     file.header().file_name().name("MyIFC.ifc");
 
     // Start by adding a wall to the file, initially leaving most attributes blank.
-    IfcSchema::IfcWallStandardCase* south_wall = new IfcSchema::IfcWallStandardCase(
-        IfcDealer::guid(),          // GlobalId
-        0,                          // OwnerHistory
-        std::string("South wall"), 	// Name
-        IfcDealer::null,            // Description
-        IfcDealer::null,            // ObjectType
-        0,                          // ObjectPlacement
-        0,                          // Representation
-        IfcDealer::null             // Tag
+//    IfcSchema::IfcWallStandardCase* south_wall = new IfcSchema::IfcWallStandardCase(
+//        IfcDealer::guid(),          // GlobalId
+//        0,                          // OwnerHistory
+//        std::string("One_space"), 	// Name
+//        IfcDealer::null,            // Description
+//        IfcDealer::null,            // ObjectType
+//        0,                          // ObjectPlacement
+//        0,                          // Representation
+//        IfcDealer::null             // Tag
+//    #ifdef USE_IFC4
+//            , IfcSchema::IfcWallTypeEnum::IfcWallType_STANDARD
+//    #endif
+//    );
+
+    IfcSchema::IfcSpace* south_wall = new IfcSchema::IfcSpace(
+        IfcDealer::guid(),                      // GlobalId
+        0,                                      // OwnerHistory
+        std::string("One_space"),               // Name
+        IfcDealer::null,                        // Description
+        IfcDealer::null,                        // ObjectType
+        0,                                      // ObjectPlacement
+        0,                                      // Representation
+        std::string("A long name!"),            // LongName
+        IfcSchema::IfcElementCompositionEnum::IfcElementComposition_ELEMENT,            // CompositionType [Complex (aggregation of), ELEMENT (undivided element) or PARTIAL (subelement)]
+        IfcSchema::IfcInternalOrExternalEnum::IfcInternalOrExternal_EXTERNAL,           // InteriorOrExteriorSpace [Internal (fully bounded physically), External (Not or partly bounded), NotDefined]
+        double(0.0)                             // ElevationWithFlooring (Level of flooring of this space)
     #ifdef USE_IFC4
             , IfcSchema::IfcWallTypeEnum::IfcWallType_STANDARD
     #endif
@@ -36,7 +53,8 @@ void IfcDealer::Create_IfcSpace_entities()
     // The wall will be shaped as a box, with the dimensions specified in millimeters. The resulting
     // product definition will consist of both a body representation as well as an axis representation
     // that runs over the centerline of the box in the X-axis.
-    IfcSchema::IfcProductDefinitionShape* south_wall_shape = file.addAxisBox(10000, 360, 3000);
+//    IfcSchema::IfcProductDefinitionShape* south_wall_shape = file.addAxisBox(10000, 360, 3000);
+    IfcSchema::IfcProductDefinitionShape* south_wall_shape = file.addBox(100000, 100000, 500);
 
     // Obtain a reference to the placement of the IfcBuildingStorey in order to create a hierarchy
     // of placements for the products
@@ -48,7 +66,7 @@ void IfcDealer::Create_IfcSpace_entities()
     south_wall->setObjectPlacement(file.addLocalPlacement(storey_placement));
 
     // Finally create a file stream for our output and write the IFC file to it.
-    std::ofstream f("MyIFC2.ifc");
+    std::ofstream f("My_IfcSpace.ifc");
     f << file;
 }
 
@@ -78,8 +96,10 @@ void create_testcase(IfcHierarchyHelper& file, IfcSchema::IfcFace* face, const s
 
     items->push(model);
     IfcSchema::IfcShapeRepresentation* rep = new IfcSchema::IfcShapeRepresentation(
-        file.getRepresentationContext("Model"), std::string("Body"), std::string("SurfaceModel"), items);
+        file.getRepresentationContext("Model"), std::string("Body"), std::string("Brep"), items);
     reps->push(rep);
+//    file.addEntity(rep);
+//    file.addBox(rep, 1000, 200, 3000);
 
     IfcSchema::IfcProductDefinitionShape* shape = new IfcSchema::IfcProductDefinitionShape(0, 0, reps);
     file.addEntity(shape);
@@ -96,20 +116,20 @@ void test_faces()
 {
     IfcHierarchyHelper file;
 
-    {
-        IfcSchema::IfcCartesianPoint::list::ptr points (new IfcSchema::IfcCartesianPoint::list);
-        points->push(file.addTriplet<IfcSchema::IfcCartesianPoint>(-400, -400, 0));
-        points->push(file.addTriplet<IfcSchema::IfcCartesianPoint>(+400, -400, 0));
-        points->push(file.addTriplet<IfcSchema::IfcCartesianPoint>(+400, +400, 0));
-        points->push(file.addTriplet<IfcSchema::IfcCartesianPoint>(-400, +400, 0));
-        IfcSchema::IfcPolyLoop* loop = new IfcSchema::IfcPolyLoop(points);
-        IfcSchema::IfcFaceOuterBound* bound = new IfcSchema::IfcFaceOuterBound(loop, true);
+//    {
+//        IfcSchema::IfcCartesianPoint::list::ptr points (new IfcSchema::IfcCartesianPoint::list);
+//        points->push(file.addTriplet<IfcSchema::IfcCartesianPoint>(-400, -400, 0));
+//        points->push(file.addTriplet<IfcSchema::IfcCartesianPoint>(+400, -400, 0));
+//        points->push(file.addTriplet<IfcSchema::IfcCartesianPoint>(+400, +400, 0));
+//        points->push(file.addTriplet<IfcSchema::IfcCartesianPoint>(-400, +400, 0));
+//        IfcSchema::IfcPolyLoop* loop = new IfcSchema::IfcPolyLoop(points);
+//        IfcSchema::IfcFaceOuterBound* bound = new IfcSchema::IfcFaceOuterBound(loop, true);
 
-        IfcSchema::IfcFaceBound::list::ptr bounds (new IfcSchema::IfcFaceBound::list);
-        bounds->push(bound);
-        IfcSchema::IfcFace* face = new IfcSchema::IfcFace(bounds);
-        create_testcase(file, face, "polyloop");
-    }
+//        IfcSchema::IfcFaceBound::list::ptr bounds (new IfcSchema::IfcFaceBound::list);
+//        bounds->push(bound);
+//        IfcSchema::IfcFace* face = new IfcSchema::IfcFace(bounds);
+//        create_testcase(file, face, "polyloop");
+//    }
 //    {
 //        IfcSchema::IfcCartesianPoint* point1 = file.addTriplet<IfcSchema::IfcCartesianPoint>(+400, 0., 0.);
 //        IfcSchema::IfcCartesianPoint* point2 = file.addTriplet<IfcSchema::IfcCartesianPoint>(-400, 0., 0.);
@@ -200,38 +220,38 @@ void test_faces()
 //        IfcSchema::IfcFace* face = new IfcSchema::IfcFace(bounds);
 //        create_testcase(file, face, "imprecise polyloop");
 //    }
-//    {
-//        IfcSchema::IfcCartesianPoint* point1 = file.addTriplet<IfcSchema::IfcCartesianPoint>(+400, 0., 0.);
-//        IfcSchema::IfcCartesianPoint* point2 = file.addTriplet<IfcSchema::IfcCartesianPoint>(-400, 0., 0.);
-//        IfcSchema::IfcVertexPoint* vertex1 = new IfcSchema::IfcVertexPoint(point1);
-//        IfcSchema::IfcVertexPoint* vertex2 = new IfcSchema::IfcVertexPoint(point2);
-//        IfcSchema::IfcCircle* circle = new IfcSchema::IfcCircle(file.addPlacement2d(), 400.);
-//        IfcSchema::IfcEdgeCurve* edge1 = new IfcSchema::IfcEdgeCurve(vertex1, vertex2, circle, true);
-//        IfcSchema::IfcEdgeCurve* edge2 = new IfcSchema::IfcEdgeCurve(vertex2, vertex1, circle, true);
-//        IfcSchema::IfcOrientedEdge* oriented_edge1 = new IfcSchema::IfcOrientedEdge(edge1, true);
-//        IfcSchema::IfcOrientedEdge* oriented_edge2 = new IfcSchema::IfcOrientedEdge(edge2, true);
-//        IfcSchema::IfcOrientedEdge::list::ptr edges(new IfcSchema::IfcOrientedEdge::list);
-//        edges->push(oriented_edge1);
-//        edges->push(oriented_edge2);
-//        IfcSchema::IfcEdgeLoop* loop = new IfcSchema::IfcEdgeLoop(edges);
-//        IfcSchema::IfcFaceOuterBound* bound = new IfcSchema::IfcFaceOuterBound(loop, true);
+    {
+        IfcSchema::IfcCartesianPoint* point1 = file.addTriplet<IfcSchema::IfcCartesianPoint>(+400, 0., 0.);
+        IfcSchema::IfcCartesianPoint* point2 = file.addTriplet<IfcSchema::IfcCartesianPoint>(-400, 0., 0.);
+        IfcSchema::IfcVertexPoint* vertex1 = new IfcSchema::IfcVertexPoint(point1);
+        IfcSchema::IfcVertexPoint* vertex2 = new IfcSchema::IfcVertexPoint(point2);
+        IfcSchema::IfcCircle* circle = new IfcSchema::IfcCircle(file.addPlacement2d(), 400.);
+        IfcSchema::IfcEdgeCurve* edge1 = new IfcSchema::IfcEdgeCurve(vertex1, vertex2, circle, true);
+        IfcSchema::IfcEdgeCurve* edge2 = new IfcSchema::IfcEdgeCurve(vertex2, vertex1, circle, true);
+        IfcSchema::IfcOrientedEdge* oriented_edge1 = new IfcSchema::IfcOrientedEdge(edge1, true);
+        IfcSchema::IfcOrientedEdge* oriented_edge2 = new IfcSchema::IfcOrientedEdge(edge2, true);
+        IfcSchema::IfcOrientedEdge::list::ptr edges(new IfcSchema::IfcOrientedEdge::list);
+        edges->push(oriented_edge1);
+        edges->push(oriented_edge2);
+        IfcSchema::IfcEdgeLoop* loop = new IfcSchema::IfcEdgeLoop(edges);
+        IfcSchema::IfcFaceOuterBound* bound = new IfcSchema::IfcFaceOuterBound(loop, true);
 
-//        IfcSchema::IfcFaceBound::list::ptr bounds (new IfcSchema::IfcFaceBound::list);
-//        bounds->push(bound);
+        IfcSchema::IfcFaceBound::list::ptr bounds (new IfcSchema::IfcFaceBound::list);
+        bounds->push(bound);
 
-//        IfcSchema::IfcCartesianPoint::list::ptr trim1(new IfcSchema::IfcCartesianPoint::list);
-//        IfcSchema::IfcCartesianPoint::list::ptr trim2(new IfcSchema::IfcCartesianPoint::list);
-//        trim1->push(point1);
-//        trim2->push(point2);
-//        IfcSchema::IfcTrimmedCurve* trimmed_curve = new IfcSchema::IfcTrimmedCurve(circle, trim1->generalize(), trim2->generalize(), true, IfcSchema::IfcTrimmingPreference::IfcTrimmingPreference_CARTESIAN);
-//        IfcSchema::IfcArbitraryOpenProfileDef* profile = new IfcSchema::IfcArbitraryOpenProfileDef(IfcSchema::IfcProfileTypeEnum::IfcProfileType_CURVE, boost::none, trimmed_curve);
-//        IfcSchema::IfcAxis1Placement* place = new IfcSchema::IfcAxis1Placement(file.addTriplet<IfcSchema::IfcCartesianPoint>(0., 0., 0.), file.addTriplet<IfcSchema::IfcDirection>(1., 0., 0.));
-//        IfcSchema::IfcSurfaceOfRevolution* surface = new IfcSchema::IfcSurfaceOfRevolution(profile, file.addPlacement3d(), place);
+        IfcSchema::IfcCartesianPoint::list::ptr trim1(new IfcSchema::IfcCartesianPoint::list);
+        IfcSchema::IfcCartesianPoint::list::ptr trim2(new IfcSchema::IfcCartesianPoint::list);
+        trim1->push(point1);
+        trim2->push(point2);
+        IfcSchema::IfcTrimmedCurve* trimmed_curve = new IfcSchema::IfcTrimmedCurve(circle, trim1->generalize(), trim2->generalize(), true, IfcSchema::IfcTrimmingPreference::IfcTrimmingPreference_CARTESIAN);
+        IfcSchema::IfcArbitraryOpenProfileDef* profile = new IfcSchema::IfcArbitraryOpenProfileDef(IfcSchema::IfcProfileTypeEnum::IfcProfileType_CURVE, boost::none, trimmed_curve);
+        IfcSchema::IfcAxis1Placement* place = new IfcSchema::IfcAxis1Placement(file.addTriplet<IfcSchema::IfcCartesianPoint>(0., 0., 0.), file.addTriplet<IfcSchema::IfcDirection>(1., 0., 0.));
+        IfcSchema::IfcSurfaceOfRevolution* surface = new IfcSchema::IfcSurfaceOfRevolution(profile, file.addPlacement3d(), place);
 
-//        IfcSchema::IfcFace* face = new IfcSchema::IfcFaceSurface(bounds, surface, true);
-//        create_testcase(file, face, "face surface");
-//    }
-    const std::string filename = "faces.ifc";
+        IfcSchema::IfcFace* face = new IfcSchema::IfcFaceSurface(bounds, surface, true);
+        create_testcase(file, face, "face surface");
+    }
+    const std::string filename = "faces_brep.ifc";
     file.header().file_name().name(filename);
     std::ofstream f(filename.c_str());
     f << file;
