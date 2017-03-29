@@ -25,17 +25,27 @@
 #include "ifcparse/IfcHierarchyHelper.h"
 #include "ifcgeom/IfcGeom.h"
 
-void create_testcase(IfcHierarchyHelper& file, IfcSchema::IfcFace* face, const std::string& name);
-void test_faces();
-
 namespace IfcDealer
 {
     // Some convenience typedefs and definitions.
     typedef IfcParse::IfcGlobalId guid;
     typedef std::pair<double, double> XY;
     boost::none_t const null = boost::none;
+    template<class whatever> struct Vec3D
+    {
+        double x, y, z;
+        // Constructors
+        Vec3D(): x(0), y(0), z(0) {}
+        Vec3D(whatever vx, whatever vy, whatever vz):
+            x(vx), y(vy), z(vz) {}
+    };
 
-    void Create_IfcSpace_entities();
+    void Create_IfcSpace_entities(Vec3D<double>&, Vec3D<int>&, Vec3D<double>&);
+    static Vec3D<double> pos_init = Vec3D<double>(0,0,0);
+    static Vec3D<double> sz_init = Vec3D<double>(100000, 100000, 500);
+    void addIfcSpace_box(IfcHierarchyHelper&, IfcSchema::IfcObjectPlacement* ref_placement = 0,
+                         Vec3D<double>& pos = pos_init, Vec3D<double>& sz = sz_init, std::string name = std::string("voxel"),
+                         std::string description = std::string(""), int number = 0);
 }
 
 #endif // IFCDEALER_H

@@ -4,7 +4,7 @@ using namespace std;
 
 extern float x_in, y_in, z_in;
 extern int sz_x, sz_y, sz_z;
-float scale = 1000, scale2 = 10;
+float scale = 1000, scale2 = 100;
 
 void Viewer::draw_cube(float x0, float y0, float z0)
 {

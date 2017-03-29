@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
     my_SuBIM.Get_GeoTOP_voxels( xmin, xmax, ymin, ymax, zmin, zmax );
 
 
+    // Initial position of the first voxel
     x_in = 0.0;
     y_in = 0.0;
 //    x_in = my_SuBIM.x0;
@@ -61,8 +62,10 @@ int main(int argc, char *argv[])
 //    return a.exec();
 
     // -------------------------------------- Generates IFC files //
-    IfcDealer::Create_IfcSpace_entities();
-//    test_faces();
+    IfcDealer::Vec3D<double> init_pos(x_in, y_in, z_in);
+    IfcDealer::Vec3D<int> range(sz_x, sz_y, sz_z);
+    IfcDealer::Vec3D<double> sz(100000, 100000, 500);
+    IfcDealer::Create_IfcSpace_entities(init_pos, range, sz);
 
     return 0;
 }
