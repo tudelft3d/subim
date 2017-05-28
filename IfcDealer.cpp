@@ -1,6 +1,6 @@
 #include "IfcDealer.h"
 
-void IfcDealer::Create_IfcSpace_entities(Vec3D<double>& init_pos, Vec3D<int>& range, Vec3D<double>& sz)
+void IfcDealer::Create_IfcSpace_entities(Vec3D<double>& init_pos, Vec3D<int>& range, Vec3D<double>& sz, std::string *vox_values)
 {
     // The IfcHierarchyHelper is a subclass of the regular IfcFile that provides several
     // convenience functions for working with geometry in IFC files.
@@ -82,9 +82,11 @@ void IfcDealer::Create_IfcSpace_entities(Vec3D<double>& init_pos, Vec3D<int>& ra
             for (int k=0; k<range.z; ++k)
             {
                 Vec3D<double> pos(x,y,z);
-                addIfcSpace_box(file, site_placement, pos, sz);
+                addIfcSpace_box( file, site_placement, pos, sz,
+                                 vox_values[(i*range.y*range.z) + (j*range.z) + k],
+                                 "GeoTOP", (i*range.y*range.z) + (j*range.z) + k );
                 z += sz.z;
-//                std::cout << "(" << x << ", " << y << ", " << z  << ")";
+//                std::cout << "\nDescription: " << vox_values[(i*range.y*range.z) + (j*range.z) + k];
             }
 //            std::cout << std::endl;
             y += sz.y;
@@ -102,7 +104,7 @@ void IfcDealer::Create_IfcSpace_entities(Vec3D<double>& init_pos, Vec3D<int>& ra
 }
 
 void IfcDealer::addIfcSpace_box(IfcHierarchyHelper& file, IfcSchema::IfcObjectPlacement* ref_placement, IfcDealer::Vec3D<double>& pos,
-                                IfcDealer::Vec3D<double>& sz, std::string name, std::string description, int number)
+                                IfcDealer::Vec3D<double>& sz, std::string description, std::string name, int number)
 {
     std::vector<XY> points;
     points.push_back(XY(   0,    0));

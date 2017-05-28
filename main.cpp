@@ -18,13 +18,14 @@ int main(int argc, char *argv[])
     // range to read in GeoTOP extract
     xmin = 85100; xmax = 85280;
     ymin = 446738; ymax = 446982;
-    zmin = -37.5; zmax = -36.0;
+    zmin = -15.5; zmax = 0.0;
 
     // Read command lines arguments.
     QApplication application(argc,argv);
 
-    SuBIM_main my_SuBIM;
-    my_SuBIM.Get_GeoTOP_voxels( xmin, xmax, ymin, ymax, zmin, zmax );
+    SuBIM_main my_SuBIM, my_SuBIM2;
+    my_SuBIM.Get_GeoTOP_voxels("strat", xmin, xmax, ymin, ymax, zmin, zmax );
+    my_SuBIM2.Get_GeoTOP_voxels("lithok", xmin, xmax, ymin, ymax, zmin, zmax );
 
 
     // Initial position of the first voxel
@@ -42,16 +43,34 @@ int main(int argc, char *argv[])
     sz_y = my_SuBIM.sy;
     sz_z = my_SuBIM.sz;
 
+    // Collect the values of the voxel as strings to add them to the IfcSpace attributes
+    std::string *vox_values = new std::string [sz_x*sz_y*sz_z];
+    for (int i=0; i<sz_x; i++)
+    {
+        for (int j=0; j<sz_y; j++)
+        {
+            for (int k=0; k<sz_z; k++)
+               vox_values[(i*sz_y*sz_z) + (j*sz_z) + k] = "strat = " + std::to_string(my_SuBIM.voxels[(i*sz_y*sz_z) + (j*sz_z) + k]) +
+                                                    "; lithok = " +  std::to_string(my_SuBIM2.voxels[(i*sz_y*sz_z) + (j*sz_z) + k]);
+        }
+    }
+
+
+    // -------------------------------------- Generates IFC files //
+    IfcDealer::Vec3D<double> init_pos(x_in, y_in, z_in);
+    IfcDealer::Vec3D<int> range(sz_x, sz_y, sz_z);
+    IfcDealer::Vec3D<double> sz(100000, 100000, 500);
+    IfcDealer::Create_IfcSpace_entities(init_pos, range, sz, vox_values);
 
     // ------------------------------------- OpenGL voxel viewer //
 
-//    // Instantiate the viewer.
-//    Viewer viewer;
-//    viewer.setWindowTitle("VoxelViewer");
-//    // Make the viewer window visible on screen.
-//    viewer.show();
-//    // Run main loop.
-//    return application.exec();
+    // Instantiate the viewer.
+    Viewer viewer;
+    viewer.setWindowTitle("VoxelViewer");
+    // Make the viewer window visible on screen.
+    viewer.show();
+    // Run main loop.
+    return application.exec();
 
     // ------------------------------------- SuBIM UI //
 
@@ -61,11 +80,6 @@ int main(int argc, char *argv[])
 
 //    return a.exec();
 
-    // -------------------------------------- Generates IFC files //
-    IfcDealer::Vec3D<double> init_pos(x_in, y_in, z_in);
-    IfcDealer::Vec3D<int> range(sz_x, sz_y, sz_z);
-    IfcDealer::Vec3D<double> sz(100000, 100000, 500);
-    IfcDealer::Create_IfcSpace_entities(init_pos, range, sz);
 
-    return 0;
+//    return 0;
 }

@@ -25,7 +25,8 @@ public:
     float x0, y0, z0;
 
     // Get corresponding voxels from GeoTOP using RD-Coordinates
-    int Get_GeoTOP_voxels(int xmin, int xmax,
+    int Get_GeoTOP_voxels(char *var_to_get,
+                          int xmin, int xmax,
                           int ymin, int ymax,
                           int zmin, int zmax);
 

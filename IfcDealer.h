@@ -33,19 +33,19 @@ namespace IfcDealer
     boost::none_t const null = boost::none;
     template<class whatever> struct Vec3D
     {
-        double x, y, z;
+        whatever x, y, z;
         // Constructors
         Vec3D(): x(0), y(0), z(0) {}
         Vec3D(whatever vx, whatever vy, whatever vz):
             x(vx), y(vy), z(vz) {}
     };
 
-    void Create_IfcSpace_entities(Vec3D<double>&, Vec3D<int>&, Vec3D<double>&);
+    void Create_IfcSpace_entities(Vec3D<double>&, Vec3D<int>&, Vec3D<double>&, std::string *);
     static Vec3D<double> pos_init = Vec3D<double>(0,0,0);
     static Vec3D<double> sz_init = Vec3D<double>(100000, 100000, 500);
     void addIfcSpace_box(IfcHierarchyHelper&, IfcSchema::IfcObjectPlacement* ref_placement = 0,
-                         Vec3D<double>& pos = pos_init, Vec3D<double>& sz = sz_init, std::string name = std::string("voxel"),
-                         std::string description = std::string(""), int number = 0);
+                         Vec3D<double>& pos = pos_init, Vec3D<double>& sz = sz_init, std::string description = std::string(""),
+                         std::string name = std::string("GeoTOP") , int number = 0);
 }
 
 #endif // IFCDEALER_H

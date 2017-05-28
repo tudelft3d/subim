@@ -59,7 +59,7 @@ else:unix: PRE_TARGETDEPS += $$PWD/lib/libQGLViewer-2.6.4/QGLViewer/libQGLViewer
 # Importing the IfcOpenshell library
 packagesExist( IfcParse & IfcGeom )
 {
-#    message( "Found IFC library!" )
+    message( "Found IFC library!" )
     unix|win32: LIBS += -L/usr/local/lib -lIfcParse -lIfcGeom \
                         # All the Open Cascade libraries .... -_-!
                         -lTKernel -lTKMath -lTKG2d -lTKG3d -lTKGeomBase -lTKBRep \

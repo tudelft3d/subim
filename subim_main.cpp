@@ -21,7 +21,8 @@ SuBIM_main::~SuBIM_main()
     delete ui;
 }
 
-int SuBIM_main::Get_GeoTOP_voxels(int xmin, int xmax,
+int SuBIM_main::Get_GeoTOP_voxels(char *var_to_get,
+                                  int xmin, int xmax,
                                   int ymin, int ymax,
                                   int zmin, int zmax)
 {
@@ -36,7 +37,7 @@ int SuBIM_main::Get_GeoTOP_voxels(int xmin, int xmax,
         cout << "#Types: " << dataFile.getTypeCount() << endl;
 
         // Retrieve the variable named "something"
-        NcVar data_var = dataFile.getVar("lithok");
+        NcVar data_var = dataFile.getVar(var_to_get);
         if(data_var.isNull())
             return NC_ERR;
         cout << "\n#Dimensions of selected variable: " << data_var.getDimCount() << endl;
